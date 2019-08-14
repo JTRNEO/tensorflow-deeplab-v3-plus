@@ -16,7 +16,7 @@ from utils import preprocessing
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--model_dir', type=str, default='./model',
+parser.add_argument('--model_dir', type=str, default='./model12',
                     help="Base directory for the model. "
                          "Make sure 'model_checkpoint_path' given in 'checkpoint' file matches "
                          "with checkpoint name.")
@@ -33,7 +33,7 @@ parser.add_argument('--output_stride', type=int, default=16,
                     help='Output stride for DeepLab v3. Currently 8 or 16 is supported.')
 
 
-_NUM_CLASSES = 21
+_NUM_CLASSES = 13
 
 
 def main(unused_argv):

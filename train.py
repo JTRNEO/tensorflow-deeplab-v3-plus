@@ -17,13 +17,13 @@ import shutil
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--model_dir', type=str, default='./model',
+parser.add_argument('--model_dir', type=str, default='./model12',
                     help='Base directory for the model.')
 
 parser.add_argument('--clean_model_dir', action='store_true',
                     help='Whether to clean up the model directory if present.')
 
-parser.add_argument('--train_epochs', type=int, default=26,
+parser.add_argument('--train_epochs', type=int, default=10,
                     help='Number of training epochs: '
                          'For 30K iteration with batch size 6, train_epoch = 17.01 (= 30K * 6 / 10,582). '
                          'For 30K iteration with batch size 8, train_epoch = 22.68 (= 30K * 8 / 10,582). '
@@ -38,7 +38,7 @@ parser.add_argument('--epochs_per_eval', type=int, default=1,
 parser.add_argument('--tensorboard_images_max_outputs', type=int, default=6,
                     help='Max number of batch elements to generate for Tensorboard.')
 
-parser.add_argument('--batch_size', type=int, default=10,
+parser.add_argument('--batch_size', type=int, default=8,
                     help='Number of examples per batch.')
 
 parser.add_argument('--learning_rate_policy', type=str, default='poly',
@@ -48,7 +48,7 @@ parser.add_argument('--learning_rate_policy', type=str, default='poly',
 parser.add_argument('--max_iter', type=int, default=30000,
                     help='Number of maximum iteration used for "poly" learning rate policy.')
 
-parser.add_argument('--data_dir', type=str, default='./dataset/',
+parser.add_argument('--data_dir', type=str, default='./dataset/tfrecord/',
                     help='Path to the directory containing the PASCAL VOC data tf record.')
 
 parser.add_argument('--base_architecture', type=str, default='resnet_v2_101',
@@ -80,7 +80,7 @@ parser.add_argument('--weight_decay', type=float, default=2e-4,
 parser.add_argument('--debug', action='store_true',
                     help='Whether to use debugger to track down bad values during training.')
 
-_NUM_CLASSES = 21
+_NUM_CLASSES = 13
 _HEIGHT = 513
 _WIDTH = 513
 _DEPTH = 3
@@ -94,8 +94,8 @@ _MOMENTUM = 0.9
 _BATCH_NORM_DECAY = 0.9997
 
 _NUM_IMAGES = {
-    'train': 10582,
-    'validation': 1449,
+    'train': 10808,
+    'validation': 3088,
 }
 
 

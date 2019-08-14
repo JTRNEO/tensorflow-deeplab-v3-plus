@@ -174,8 +174,8 @@ def deeplabv3_plus_model_fn(features, labels, mode, params):
   pred_classes = tf.expand_dims(tf.argmax(logits, axis=3, output_type=tf.int32), axis=3)
 
   pred_decoded_labels = tf.py_func(preprocessing.decode_labels,
-                                   [pred_classes, params['batch_size'], params['num_classes']],
-                                   tf.uint8)
+                                  [pred_classes, params['batch_size'], params['num_classes']],
+                                tf.uint8)
 
   predictions = {
       'classes': pred_classes,
@@ -197,7 +197,8 @@ def deeplabv3_plus_model_fn(features, labels, mode, params):
         })
 
   gt_decoded_labels = tf.py_func(preprocessing.decode_labels,
-                                 [labels, params['batch_size'], params['num_classes']], tf.uint8)
+                                [labels, params['batch_size'], params['num_classes']], tf.uint8)
+  
 
   labels = tf.squeeze(labels, axis=3)  # reduce the channel dimension.
 

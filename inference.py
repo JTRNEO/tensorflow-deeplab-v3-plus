@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
+import cv2
 import argparse
 import os
 import sys
@@ -21,7 +21,7 @@ from tensorflow.python import debug as tf_debug
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--data_dir', type=str, default='dataset/VOCdevkit/VOC2012/JPEGImages',
+parser.add_argument('--data_dir', type=str, default='./patch/',
                     help='The directory containing the image data.')
 
 parser.add_argument('--output_dir', type=str, default='./dataset/inference_output',
@@ -30,7 +30,7 @@ parser.add_argument('--output_dir', type=str, default='./dataset/inference_outpu
 parser.add_argument('--infer_data_list', type=str, default='./dataset/sample_images_list.txt',
                     help='Path to the file listing the inferring images.')
 
-parser.add_argument('--model_dir', type=str, default='./model',
+parser.add_argument('--model_dir', type=str, default='./model12',
                     help="Base directory for the model. "
                          "Make sure 'model_checkpoint_path' given in 'checkpoint' file matches "
                          "with checkpoint name.")
@@ -46,13 +46,13 @@ parser.add_argument('--output_stride', type=int, default=16,
 parser.add_argument('--debug', action='store_true',
                     help='Whether to use debugger to track down bad values during training.')
 
-_NUM_CLASSES = 21
+_NUM_CLASSES = 13
 
 
 def main(unused_argv):
   # Using the Winograd non-fused algorithms provides a small performance boost.
   os.environ['TF_ENABLE_WINOGRAD_NONFUSED'] = '1'
-
+  
   pred_hooks = None
   if FLAGS.debug:
     debug_hook = tf_debug.LocalCLIDebugHook()
@@ -82,6 +82,7 @@ def main(unused_argv):
     os.makedirs(output_dir)
 
   for pred_dict, image_path in zip(predictions, image_files):
+    
     image_basename = os.path.splitext(os.path.basename(image_path))[0]
     output_filename = image_basename + '_mask.png'
     path_to_output = os.path.join(output_dir, output_filename)
@@ -89,9 +90,11 @@ def main(unused_argv):
     print("generating:", path_to_output)
     mask = pred_dict['decoded_labels']
     mask = Image.fromarray(mask)
-    plt.axis('off')
-    plt.imshow(mask)
-    plt.savefig(path_to_output, bbox_inches='tight')
+    finmask=mask[:,:,0]
+    print(set(finmask.flatten())
+    # plt.axis('off')
+    # plt.imshow(mask)
+    # plt.savefig(path_to_output, bbox_inches='tight')
 
 
 if __name__ == '__main__':
